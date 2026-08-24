@@ -78,20 +78,19 @@
 </head>
 <body>
 
-  <!-- Navigation Index -->
+  <!-- Navigation Index: Notice we are using href="#page-..." now instead of onclick -->
   <nav id="sidebar">
     <h2>Main Index</h2>
-    <!-- The onclick function passes the target page ID and the clicked element -->
-    <a class="nav-link active" onclick="showPage('page-1', this)">Quiz 1</a>
-    <a class="nav-link" onclick="showPage('page-2', this)">Quiz 2 (Placeholder)</a>
-    <a class="nav-link" onclick="showPage('page-3', this)">Contact Info</a>
+    <a class="nav-link" href="#page-1">Quiz 1</a>
+    <a class="nav-link" href="#page-2">Quiz 2 (Placeholder)</a>
+    <a class="nav-link" href="#page-3">Contact Info</a>
   </nav>
 
   <!-- Content Bodies -->
   <main id="main-content">
     
     <!-- PAGE 1: Your original iframe -->
-    <div id="page-1" class="page-section active">
+    <div id="page-1" class="page-section">
       <h2>Quiz 1</h2>
       
       <!-- Your provided snippet -->
@@ -123,30 +122,48 @@
 
   </main>
 
-  <!-- Logic for switching pages -->
+  <!-- Logic for switching pages based on the URL Hash -->
   <script>
-    function showPage(pageId, clickedLink) {
-      // 1. Hide all elements with the class 'page-section'
+    function handleRouting() {
+      // 1. Get the hash from the URL (e.g., "#page-2"). Default to "#page-1" if none exists.
+      let hash = window.location.hash || '#page-1';
+      
+      // Remove the '#' symbol to get the exact HTML ID of the page
+      let pageId = hash.substring(1);
+      
+      // If someone types a bad link, fall back to page-1
+      if (!document.getElementById(pageId)) {
+        pageId = 'page-1';
+        hash = '#page-1';
+      }
+
+      // 2. Hide all page sections
       const pages = document.querySelectorAll('.page-section');
-      pages.forEach(page => {
-        page.classList.remove('active');
-      });
+      pages.forEach(page => page.classList.remove('active'));
 
-      // 2. Remove the 'active' class from all navigation links
+      // 3. Remove 'active' styling from all navigation links
       const links = document.querySelectorAll('.nav-link');
-      links.forEach(link => {
-        link.classList.remove('active');
-      });
+      links.forEach(link => link.classList.remove('active'));
 
-      // 3. Add the 'active' class to the clicked link and target page
+      // 4. Show the correct page based on the URL
       document.getElementById(pageId).classList.add('active');
-      clickedLink.classList.add('active');
+      
+      // 5. Highlight the correct link in the sidebar
+      const activeLink = document.querySelector(`.nav-link[href="${hash}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
     }
+
+    // Run the routing function when the page first loads
+    window.addEventListener('DOMContentLoaded', handleRouting);
+
+    // Run the routing function whenever the URL hash changes (like when clicking a link)
+    window.addEventListener('hashchange', handleRouting);
   </script>
 
 </body>
 </html>
-
 
 <!-- original approach
 
