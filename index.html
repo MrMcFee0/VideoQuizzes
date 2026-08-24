@@ -17,20 +17,6 @@
     >
   </iframe>
 </div>
-
-<script>
-  window.addEventListener('load', () => {
-    const wrapper = document.getElementById('embed-wrapper');
-    const targetHeight = 500; // Target optimal height in pixels
-    const availableHeight = window.innerHeight;
-    
-    if (availableHeight < targetHeight) {
-      const scaleRatio = availableHeight / targetHeight;
-      wrapper.style.transform = `scale(${scaleRatio})`;
-    }
-  });
-</script>
-  
 <!--  <div style="width: 100%; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 8px;"> -->
  
 </body>
