@@ -22,7 +22,7 @@
       padding: 20px;
       box-sizing: border-box;
       overflow-y: auto;
-      transition: all 0.3s ease; /* Smooth transition if you change widths */
+      transition: all 0.3s ease;
     }
 
     /* Class to hide the sidebar */
@@ -68,29 +68,6 @@
       flex-direction: column;
     }
 
-    /* Toggle Button Styles */
-    .header-bar {
-      margin-bottom: 20px;
-    }
-
-    .toggle-btn {
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      color: #495057;
-      transition: background-color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .toggle-btn:hover {
-      background-color: #e9ecef;
-    }
-
     /* Content Sections (Pages) */
     .page-section {
       display: none; /* Hides all sections by default */
@@ -110,8 +87,8 @@
 </head>
 <body>
 
-  <!-- Navigation Index -->
-  <nav id="sidebar">
+  <!-- Navigation Index (Hidden by default) -->
+  <nav id="sidebar" class="hidden">
     <h2>Main Index</h2>
     <a class="nav-link" href="#page-1">Quiz 1</a>
     <a class="nav-link" href="#page-2">Quiz 2 (Placeholder)</a>
@@ -120,13 +97,6 @@
 
   <!-- Content Bodies -->
   <main id="main-content">
-    
-    <!-- Header bar that sits above the content -->
-    <div class="header-bar">
-      <button id="toggle-sidebar" class="toggle-btn">
-        ☰ Toggle Index
-      </button>
-    </div>
     
     <!-- PAGE 1: Your original iframe -->
     <div id="page-1" class="page-section">
@@ -156,21 +126,23 @@
     <div id="page-3" class="page-section">
       <h2>Contact Info</h2>
       <p>This page demonstrates that you can put standard text and HTML in these blocks, not just iframes.</p>
+      <p><em>Pro tip: Press Ctrl + Right Arrow to toggle the sidebar!</em></p>
     </div>
 
   </main>
 
   <!-- Scripts -->
   <script>
-    // --- 1. Toggle Sidebar Logic ---
-    const toggleBtn = document.getElementById('toggle-sidebar');
-    const sidebar = document.getElementById('sidebar');
-
-    toggleBtn.addEventListener('click', () => {
-      // This switches the "hidden" class on and off every time it's clicked
-      sidebar.classList.toggle('hidden');
+    // --- 1. Keyboard Shortcut Toggle Logic ---
+    // Listens for any key pressed on the entire document
+    document.addEventListener('keydown', (event) => {
+      // Check if the 'Control' key AND the 'ArrowRight' key are pressed simultaneously
+      if (event.ctrlKey && event.key === 'ArrowRight') {
+        event.preventDefault(); // Prevents any default browser behavior for this shortcut
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('hidden');
+      }
     });
-
 
     // --- 2. URL Routing Logic ---
     function handleRouting() {
